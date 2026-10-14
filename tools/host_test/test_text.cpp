@@ -14,8 +14,6 @@
 #include <string>
 #include <vector>
 
-std::vector<GfxCall> g_calls;
-
 static int g_failures = 0;
 static int g_checks = 0;
 

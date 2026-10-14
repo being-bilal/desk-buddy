@@ -25,3 +25,9 @@ firmware/.pio/
 #  purpose. Vercel serves this folder as a static site with no build step, so
 #  the images have to exist in the repo for the installer to work.
 # ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+#  Local preview / screenshot scaffolding
+# ---------------------------------------------------------------------------
+.preview/
+node_modules/

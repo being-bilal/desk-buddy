@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-//  Face engine - five animated expressions on a 128x64 mono OLED.
+//  Face engine - twelve animated expressions on a 128x64 mono OLED.
 // ---------------------------------------------------------------------------
 #pragma once
 
@@ -9,14 +9,26 @@
 enum FaceId : uint8_t {
   FACE_NEUTRAL = 0,
   FACE_HAPPY,
+  FACE_EXCITED,
+  FACE_LOVE,
+  FACE_COOL,
+  FACE_WINK,
   FACE_TIRED,
+  FACE_SAD,
   FACE_ANGRY,
   FACE_SURPRISED,
+  FACE_CONFUSED,
+  FACE_DEAD,
   FACE_COUNT
 };
 
 const char *faceName(FaceId f);
-int faceFromName(const char *name);   // -1 when unknown
+int         faceFromName(const char *name);   // -1 when unknown
+
+// Used by the web panel, which builds its grid from whatever the device reports
+// rather than from a duplicated list in JavaScript.
+uint8_t     faceCount();
+const char *faceNameAt(uint8_t index);
 
 class FaceEngine {
 public:
@@ -30,10 +42,17 @@ public:
   void render();                      // draw current frame (no display() call)
 
 private:
+  void drawEyeAt(int16_t cx, int16_t cy, const struct FaceSpec &s, float lid,
+                 bool forceArc);
   void drawRectEye(int16_t cx, int16_t cy, const struct FaceSpec &s, float lid);
   void drawArcEye(int16_t cx, int16_t cy, const struct FaceSpec &s);
+  void drawHeartEye(int16_t cx, int16_t cy, int16_t size);
+  void drawCrossEye(int16_t cx, int16_t cy, int16_t size);
+  void drawShades(const struct FaceSpec &s);
   void drawBrow(int16_t cx, int16_t cy, const struct FaceSpec &s, bool left);
   void drawMouth(const struct FaceSpec &s);
+  void drawBlush();
+
   static void thickArc(Adafruit_GFX *g, int16_t x0, int16_t y0, int16_t w,
                        int16_t h, uint8_t thickness, bool up);
 

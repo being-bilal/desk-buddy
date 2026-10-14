@@ -1,34 +1,99 @@
-/* Desk Buddy control panel - talks to the device over WebSocket. */
+/* Desk Buddy control panel.
+   The face grid is built from the list the device reports, so the browser can
+   never drift out of sync with the firmware. */
 (function () {
   'use strict';
 
-  var FACES = [
-    { id: 'neutral',   em: '\uD83D\uDE42', label: 'Neutral'   },
-    { id: 'happy',     em: '\uD83D\uDE04', label: 'Happy'     },
-    { id: 'tired',     em: '\uD83D\uDE34', label: 'Tired'     },
-    { id: 'angry',     em: '\uD83D\uDE20', label: 'Angry'     },
-    { id: 'surprised', em: '\uD83D\uDE2E', label: 'Surprised' }
-  ];
-
   var $ = function (id) { return document.getElementById(id); };
-  var ws = null, retry = null;
 
-  /* ------------------------------ faces ------------------------------ */
+  /* Presentation only - the authoritative face list comes from the device. */
+  var META = {
+    neutral:   { em: '\uD83D\uDE42', label: 'Neutral',   bg: '#DCE3EC', fg: '#111' },
+    happy:     { em: '\uD83D\uDE04', label: 'Happy',     bg: '#FFD400', fg: '#111' },
+    excited:   { em: '\uD83E\uDD29', label: 'Excited',   bg: '#FF7A00', fg: '#111' },
+    love:      { em: '\uD83D\uDE0D', label: 'Love',      bg: '#FF3D8B', fg: '#FFFFFF' },
+    cool:      { em: '\uD83D\uDE0E', label: 'Cool',      bg: '#00D5E0', fg: '#111' },
+    wink:      { em: '\uD83D\uDE09', label: 'Wink',      bg: '#8B5CF6', fg: '#FFFFFF' },
+    tired:     { em: '\uD83D\uDE34', label: 'Tired',     bg: '#A5B4FC', fg: '#111' },
+    sad:       { em: '\uD83D\uDE22', label: 'Sad',       bg: '#2F6BFF', fg: '#FFFFFF' },
+    angry:     { em: '\uD83D\uDE20', label: 'Angry',     bg: '#FF3B30', fg: '#FFFFFF' },
+    surprised: { em: '\uD83D\uDE2E', label: 'Surprised', bg: '#B6FF3B', fg: '#111' },
+    confused:  { em: '\uD83E\uDD14', label: 'Confused',  bg: '#00B894', fg: '#111' },
+    dead:      { em: '\uD83D\uDC80', label: 'Dead',      bg: '#C9CED6', fg: '#111' }
+  };
+
   var facesEl = $('faces');
-  FACES.forEach(function (f) {
-    var b = document.createElement('button');
-    b.className = 'face';
-    b.dataset.face = f.id;
-    b.innerHTML = '<span class="em">' + f.em + '</span><span>' + f.label + '</span>';
-    b.addEventListener('click', function () { send({ t: 'face', v: f.id }); });
-    facesEl.appendChild(b);
-  });
+  var msg = $('msg');
+  var vol = $('vol');
+
+  var ws = null;
+  var retryTimer = null;
+  var renderedList = null;
+
+  /* ------------------------------ helpers ------------------------------- */
+  function metaFor(name) {
+    if (META[name]) return META[name];
+    return {
+      em: '\u2753',
+      label: name.charAt(0).toUpperCase() + name.slice(1),
+      bg: '#E5E7EB',
+      fg: '#111'
+    };
+  }
 
   function send(obj) {
     if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(obj));
   }
 
-  /* ---------------------------- websocket ---------------------------- */
+  /* ------------------------------- faces -------------------------------- */
+  function renderFaces(list) {
+    if (renderedList && renderedList.join('|') === list.join('|')) return;
+    renderedList = list.slice();
+
+    facesEl.innerHTML = '';
+    list.forEach(function (name) {
+      var m = metaFor(name);
+      var b = document.createElement('button');
+      b.className = 'face';
+      b.dataset.face = name;
+      b.style.background = m.bg;
+      b.style.color = m.fg;
+
+      var em = document.createElement('span');
+      em.className = 'em';
+      em.textContent = m.em;
+
+      var label = document.createElement('span');
+      label.textContent = m.label;
+
+      b.appendChild(em);
+      b.appendChild(label);
+      b.addEventListener('click', function () { send({ t: 'face', v: name }); });
+      facesEl.appendChild(b);
+    });
+
+    $('faceTotal').textContent = list.length;
+    buildTicker(list.length);
+  }
+
+  function buildTicker(count) {
+    var items = [
+      count + ' expressions',
+      'tap to switch face',
+      'hold for your message',
+      'piezo powered',
+      'no cloud, all on your LAN',
+      'buddy.local'
+    ];
+    /* Each item carries its own trailing separator, so the track is exactly
+       two identical halves and the -50% translation loops seamlessly. */
+    var half = items.map(function (t) {
+      return '<b>\u2726</b> ' + t + ' &nbsp;&nbsp; ';
+    }).join('');
+    $('ticker').innerHTML = half + half;
+  }
+
+  /* ----------------------------- websocket ------------------------------ */
   function connect() {
     var url = (location.protocol === 'https:' ? 'wss://' : 'ws://') +
               location.host + '/ws';
@@ -45,27 +110,26 @@
   }
 
   function scheduleReconnect() {
-    if (retry) return;
-    retry = setTimeout(function () { retry = null; connect(); }, 1500);
+    if (retryTimer) return;
+    retryTimer = setTimeout(function () { retryTimer = null; connect(); }, 1500);
   }
 
   function setStatus(on) {
     $('dot').classList.toggle('on', on);
-    if (!on) $('status').textContent = 'reconnecting\u2026';
+    $('status').querySelector('b').textContent = on ? 'online' : 'reconnecting';
   }
 
   function apply(s) {
-    $('name').textContent = s.name || 'Desk Buddy';
-    $('fw').textContent = s.fw ? 'v' + s.fw : '';
     $('ip').textContent = s.ip || '\u2014';
-    $('status').textContent = s.ap ? 'setup AP' : 'connected';
 
-    var list = document.querySelectorAll('.face');
-    for (var i = 0; i < list.length; i++) {
-      list[i].classList.toggle('active', list[i].dataset.face === s.face);
+    if (s.faceList && s.faceList.length) renderFaces(s.faceList);
+
+    var cards = facesEl.children;
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].classList.toggle('active', cards[i].dataset.face === s.face);
     }
 
-    /* Never stomp on what the user is currently typing or dragging. */
+    /* Never stomp on what the user is typing or dragging. */
     if (document.activeElement !== msg) {
       msg.value = s.text || '';
       updateCount();
@@ -77,17 +141,16 @@
 
     var bits = [
       s.mode === 'text' ? 'showing message' : 'face: ' + s.face,
-      s.audio ? (s.playing ? 'playing track ' + s.track : 'audio idle')
-              : 'no audio driver',
+      s.audio ? (s.playing ? 'melody ' + s.track : 'audio idle') : 'no audio driver',
       Math.round(s.fps || 0) + ' fps',
+      'fw ' + (s.fw || '?'),
       'up ' + (s.uptime || 0) + 's'
     ];
     if (!s.storage) bits.push('storage failed');
     $('stat-line').textContent = bits.join(' \u00b7 ');
   }
 
-  /* ----------------------------- message ----------------------------- */
-  var msg = $('msg');
+  /* ------------------------------ message ------------------------------- */
   function updateCount() { $('count').textContent = msg.value.length; }
   msg.addEventListener('input', updateCount);
 
@@ -97,7 +160,7 @@
   });
 
   $('show').addEventListener('click', function () {
-    send({ t: 'text', v: msg.value });   /* push the latest text first */
+    send({ t: 'text', v: msg.value });     /* push the latest text first */
     send({ t: 'show' });
     flash($('show'));
   });
@@ -111,7 +174,7 @@
     }
   });
 
-  /* ------------------------------ sound ------------------------------ */
+  /* ------------------------------- sound -------------------------------- */
   var playButtons = document.querySelectorAll('[data-play]');
   for (var p = 0; p < playButtons.length; p++) {
     (function (btn) {
@@ -122,18 +185,17 @@
   }
   $('stop').addEventListener('click', function () { send({ t: 'stop' }); });
 
-  var vol = $('vol');
   vol.addEventListener('input', function () { $('volv').textContent = vol.value; });
   vol.addEventListener('change', function () {
     send({ t: 'vol', v: parseInt(vol.value, 10) });
   });
 
-  /* ------------------------------ wifi ------------------------------- */
+  /* ------------------------------- wifi --------------------------------- */
   $('wifi').addEventListener('submit', function (e) {
     e.preventDefault();
     var ssid = $('ssid').value.trim();
     if (!ssid) return;
-    $('status').textContent = 'rebooting\u2026';
+    $('status').querySelector('b').textContent = 'rebooting';
     fetch('/api/wifi', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -142,18 +204,19 @@
   });
 
   $('reboot').addEventListener('click', function () {
-    $('status').textContent = 'rebooting\u2026';
+    $('status').querySelector('b').textContent = 'rebooting';
     fetch('/api/reboot', { method: 'POST' })['catch'](function () {});
   });
 
   function flash(el) {
     var old = el.textContent;
-    el.textContent = '\u2713';
+    el.textContent = '\u2713 saved';
     setTimeout(function () { el.textContent = old; }, 900);
   }
 
-  /* ------------------------------ boot ------------------------------- */
+  /* ------------------------------- boot --------------------------------- */
   updateCount();
+  buildTicker(12);
   fetch('/api/wifi')
     .then(function (r) { return r.json(); })
     .then(function (w) { if (w && w.ssid) $('ssid').value = w.ssid; })

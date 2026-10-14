@@ -3,106 +3,292 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0e1117">
+<meta name="theme-color" content="#FFF6E5">
 <title>Desk Buddy &mdash; Install</title>
 <script type="module"
         src="https://unpkg.com/esp-web-tools@10.1.1/dist/web/install-button.js?module"></script>
 <style>
-  :root { --bg:#0e1117; --card:#161b26; --line:#2a3345; --fg:#e6ebf5;
-          --dim:#8b98ad; --accent:#4f8cff; }
+  :root {
+    --ink: #111111;
+    --paper: #FFF6E5;
+    --pink: #FF3D8B;
+    --yellow: #FFD400;
+    --lime: #B6FF3B;
+    --cyan: #00D5E0;
+    --violet: #8B5CF6;
+    --orange: #FF7A00;
+    --blue: #2F6BFF;
+    --shadow: 6px 6px 0 var(--ink);
+    --shadow-sm: 4px 4px 0 var(--ink);
+    --border: 3px solid var(--ink);
+  }
   * { box-sizing: border-box; }
-  body { margin:0; padding:0 18px 60px; background:var(--bg); color:var(--fg);
-         font:15.5px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-         -webkit-font-smoothing:antialiased; }
-  main { max-width:660px; margin:0 auto; }
-  header { padding:46px 0 8px; }
-  h1 { margin:0; font-size:30px; letter-spacing:-.02em; }
-  .sub { color:var(--dim); margin:6px 0 0; font-size:14px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:14px;
-          padding:22px; margin-top:26px; text-align:center; }
-  esp-web-install-button button, .primary {
-    background:var(--accent); border:0; color:#fff; font-weight:600; font-size:15px;
-    padding:13px 26px; border-radius:10px; cursor:pointer;
-    font-family:inherit; }
-  esp-web-install-button button:hover { background:#5f97ff; }
-  .note { color:var(--dim); font-size:13px; margin-top:14px; }
-  h2 { font-size:13px; text-transform:uppercase; letter-spacing:.05em;
-       color:var(--dim); margin:34px 0 10px; }
-  ol { padding-left:20px; color:var(--fg); }
-  li { margin-bottom:9px; }
-  code { background:var(--card); border:1px solid var(--line); padding:2px 7px;
-         border-radius:6px; font-size:13px; }
-  .warn { background:#241a1a; border-color:#553030; }
-  .warn b { color:#ff9a9a; }
-  a { color:var(--accent); }
-  footer { color:var(--dim); font-size:12.5px; margin-top:36px; }
+
+  body {
+    margin: 0;
+    padding: 0 16px 56px;
+    color: var(--ink);
+    font: 16px/1.55 ui-rounded, "Nunito", "Trebuchet MS", -apple-system,
+          BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--paper);
+    background-image:
+      radial-gradient(rgba(17,17,17,.10) 1.3px, transparent 1.3px),
+      radial-gradient(rgba(17,17,17,.10) 1.3px, transparent 1.3px);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+  }
+
+  main { max-width: 720px; margin: 0 auto; }
+
+  /* ------------------------------- hero --------------------------------- */
+  .hero { padding: 34px 0 6px; }
+
+  h1 {
+    display: inline-block;
+    margin: 0 0 14px;
+    padding: 10px 20px;
+    font-size: clamp(28px, 7vw, 44px);
+    font-weight: 900;
+    letter-spacing: -.03em;
+    line-height: 1;
+    background: var(--yellow);
+    border: var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    transform: rotate(-1.5deg);
+  }
+
+  .sub {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    opacity: .7;
+  }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .chip {
+    padding: 6px 13px;
+    font-size: 11.5px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    border: var(--border);
+    border-radius: 999px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+  .chip:nth-child(1) { background: var(--pink); color: #fff; transform: rotate(-2deg); }
+  .chip:nth-child(2) { background: var(--lime); transform: rotate(1.5deg); }
+  .chip:nth-child(3) { background: var(--cyan); transform: rotate(-1deg); }
+  .chip:nth-child(4) { background: var(--violet); color: #fff; transform: rotate(2deg); }
+
+  /* ------------------------------ installer ----------------------------- */
+  .card {
+    background: #fff;
+    border: var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    padding: 24px 20px;
+    margin-top: 26px;
+    text-align: center;
+  }
+  .card.install { background: var(--pink); color: #fff; }
+
+  esp-web-install-button button,
+  .card.install > button {
+    font: inherit;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    padding: 16px 34px;
+    color: var(--ink);
+    background: var(--yellow);
+    border: var(--border);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: transform .07s ease, box-shadow .07s ease;
+  }
+  esp-web-install-button button:hover,
+  .card.install > button:hover { background: var(--lime); }
+  esp-web-install-button button:active,
+  .card.install > button:active {
+    transform: translate(6px, 6px);
+    box-shadow: 0 0 0 var(--ink);
+  }
+
+  esp-web-install-button[slot="unsupported"],
+  esp-web-install-button span {
+    display: block;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+
+  .note {
+    margin: 16px 0 0;
+    font-size: 13px;
+    font-weight: 700;
+    opacity: .85;
+  }
+
+  /* -------------------------------- steps ------------------------------- */
+  h2 {
+    display: inline-block;
+    margin: 40px 0 16px;
+    padding: 5px 16px;
+    font-size: 12.5px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    background: var(--cyan);
+    border: var(--border);
+    border-radius: 999px;
+    box-shadow: 3px 3px 0 var(--ink);
+    transform: rotate(-1.5deg);
+  }
+
+  ol { margin: 0; padding: 0; list-style: none; counter-reset: step; }
+
+  li {
+    position: relative;
+    counter-increment: step;
+    margin-bottom: 12px;
+    padding: 14px 16px 14px 60px;
+    background: #fff;
+    border: var(--border);
+    border-radius: 15px;
+    box-shadow: var(--shadow-sm);
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+  li::before {
+    content: counter(step);
+    position: absolute;
+    left: 12px;
+    top: 13px;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 14px;
+    background: var(--orange);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+  }
+  li:nth-child(2n)::before { background: var(--lime); }
+  li:nth-child(3n)::before { background: var(--cyan); }
+
+  b { font-weight: 900; }
+
+  code {
+    background: var(--yellow);
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    padding: 1px 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+  }
+
+  .warn {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 20px;
+    border: var(--border);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-top: 34px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .warn b { color: var(--yellow); }
+  .warn code { background: var(--paper); color: var(--ink); }
+
+  footer {
+    margin-top: 30px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    opacity: .6;
+  }
 </style>
 </head>
 <body>
 <main>
 
-<header>
-  <h1>Desk Buddy</h1>
-  <p class="sub">ESP32-C3 Super Mini &middot; 5 animated faces &middot; capacitive
-     touch &middot; piezo audio</p>
-</header>
+  <div class="hero">
+    <h1>Desk Buddy</h1>
+    <p class="sub">Flash it straight from your browser</p>
+    <div class="chips">
+      <span class="chip">ESP32-C3</span>
+      <span class="chip">12 faces</span>
+      <span class="chip">Touch</span>
+      <span class="chip">Piezo</span>
+    </div>
+  </div>
 
-<div class="card">
-  <esp-web-install-button manifest="manifest.json">
-    <button slot="activate">Install firmware</button>
-    <span slot="unsupported">
-      This browser can't talk to serial devices. Use desktop Chrome, Edge or
-      Opera.
-    </span>
-    <span slot="not-allowed">
-      This page must be served over HTTPS or from localhost.
-    </span>
-  </esp-web-install-button>
-  <p class="note">Erases the flash and writes the firmware plus the on-device
-     web panel.</p>
-</div>
+  <div class="card install">
+    <esp-web-install-button manifest="manifest.json">
+      <button slot="activate">Install firmware</button>
+      <span slot="unsupported">
+        This browser can't talk to serial devices &mdash; use desktop Chrome,
+        Edge or Opera.
+      </span>
+      <span slot="not-allowed">
+        This page must be served over HTTPS or from localhost.
+      </span>
+    </esp-web-install-button>
+    <p class="note">Erases the flash and writes the firmware plus the
+      on-device control panel.</p>
+  </div>
 
-<h2>Before you start</h2>
-<ol>
-  <li>Use a real <b>data</b> USB-C cable &mdash; many charge-only cables carry no
-      data lines.</li>
-  <li>Plug the ESP32-C3 Super Mini in. The C3 uses its built-in USB-Serial/JTAG,
-      so <b>no driver install is needed</b>.</li>
-  <li>Open this page in desktop Chrome or Edge (Firefox and Safari have no Web
-      Serial).</li>
-  <li>Click <b>Install firmware</b> and pick the serial port that appeared.</li>
-</ol>
+  <h2>Before you start</h2>
+  <ol>
+    <li>Use a real <b>data</b> USB-C cable &mdash; plenty of charge-only cables
+      carry no data lines.</li>
+    <li>Plug the board in. The C3 uses its built-in USB-Serial/JTAG, so
+      <b>no driver install is needed</b>.</li>
+    <li>Open this page in desktop Chrome or Edge &mdash; Firefox and Safari
+      have no Web Serial.</li>
+    <li>Hit <b>Install firmware</b> and pick the serial port that appears.</li>
+  </ol>
 
-<h2>After installing</h2>
-<ol>
-  <li>The buddy boots, shows its face and chirps a short four-note jingle on
-      the piezo.</li>
-  <li>On first boot it starts a WiFi access point called
-      <code>DeskBuddy-Setup</code>.</li>
-  <li>Join that network &mdash; the setup sheet should pop up automatically,
-      otherwise browse to <code>http://192.168.4.1</code>.</li>
-  <li>Enter your home WiFi details and the buddy reboots onto your network.</li>
-  <li>Open the control panel at <code>http://buddy.local</code>.</li>
-</ol>
+  <h2>First boot</h2>
+  <ol>
+    <li>The buddy shows its face and chirps a four-note jingle on the piezo.</li>
+    <li>It starts a WiFi access point called <code>DeskBuddy-Setup</code>.</li>
+    <li>Join it &mdash; the setup sheet should pop up automatically, otherwise
+      browse to <code>http://192.168.4.1</code>.</li>
+    <li>Enter your home WiFi details and the buddy reboots onto your
+      network.</li>
+    <li>Open the control panel at <code>http://buddy.local</code>.</li>
+  </ol>
 
-<h2>Using it</h2>
-<ol>
-  <li><b>Single tap</b> the touch pad to cycle through the five faces.</li>
-  <li><b>Hold</b> the touch pad for about 0.7&nbsp;s to show the message you
-      typed in the control panel; track 2 plays with it.</li>
-</ol>
+  <h2>Using it</h2>
+  <ol>
+    <li><b>Single tap</b> the touch pad to cycle through all twelve faces.</li>
+    <li><b>Hold</b> the touch pad for about 0.7&nbsp;s to show the message you
+      typed in the control panel, along with the message melody.</li>
+  </ol>
 
-<div class="card warn" style="text-align:left">
-  <b>Build this page yourself?</b> This installer needs <code>desk-buddy-firmware.bin</code> and
-  <code>littlefs.bin</code> next to it, described by <code>manifest.json</code>.
-  Generate all three with <code>./tools/build_release.sh</code>, then serve the
-  folder over HTTPS (GitHub Pages works well) or localhost.
-</div>
+  <div class="warn">
+    <b>Building this page yourself?</b> The installer needs
+    <code>desk-buddy-firmware.bin</code> and <code>littlefs.bin</code> sitting
+    next to it, described by <code>manifest.json</code>. Generate all three
+    with <code>./tools/build_release.sh</code>, then serve the folder over
+    HTTPS &mdash; Vercel or GitHub Pages both work.
+  </div>
 
-<footer>
-  Firmware flashed this way includes the web panel in LittleFS, so there is
-  nothing else to upload.
-</footer>
+  <footer>
+    Firmware flashed this way already includes the control panel in LittleFS,
+    so there is nothing else to upload.
+  </footer>
 
 </main>
 </body>

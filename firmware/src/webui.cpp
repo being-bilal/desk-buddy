@@ -33,6 +33,11 @@ static String stateJson() {
   doc["face"]      = faceName(s_buddy->face());
   doc["faceIndex"] = (uint8_t)s_buddy->face();
   doc["faceCount"] = (uint8_t)FACE_COUNT;
+
+  // The panel builds its grid from this list, so the expressions are defined in
+  // exactly one place (faces.cpp) and the browser can never drift out of sync.
+  JsonArray list = doc["faceList"].to<JsonArray>();
+  for (uint8_t i = 0; i < faceCount(); i++) list.add(faceNameAt(i));
   doc["mode"]      = (s_buddy->mode() == SCREEN_TEXT) ? "text" : "face";
   doc["text"]      = s_buddy->text();
   doc["vol"]       = s_buddy->volume();

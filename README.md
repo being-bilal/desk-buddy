@@ -7,7 +7,7 @@ family, but the message and audio behaviour is driven from a web panel the
 device serves itself.
 
 ```
-single tap   ->  cycle through 5 faces
+single tap   ->  cycle through 12 faces
 hold ~0.7 s  ->  show the message stored from the web panel + melody 2
 power on     ->  chirp melody 1 (the intro jingle)
 ```
@@ -70,9 +70,21 @@ gaze and randomised blinking:
 |---|---|---|
 | 0 | `neutral` | tall rounded eyes, mid pupils |
 | 1 | `happy` | closed "∩ ∩" arc eyes and a smile |
-| 2 | `tired` | eyelids covering ~40 % of the eye |
-| 3 | `angry` | inward-slanting brows, narrowed pupils |
-| 4 | `surprised` | oversized eyes, small pupils, "o" mouth |
+| 2 | `excited` | huge eyes, tiny pupils, open grin |
+| 3 | `love` | heart-shaped eyes and blush marks |
+| 4 | `cool` | one bar of sunglasses and a smirk |
+| 5 | `wink` | one eye shut, one open |
+| 6 | `tired` | eyelids covering ~40 % of the eye |
+| 7 | `sad` | inner ends of the brows raised, frown |
+| 8 | `angry` | inward-slanting brows, narrowed pupils |
+| 9 | `surprised` | oversized eyes, small pupils, "o" mouth |
+| 10 | `confused` | one brow raised, flat mouth |
+| 11 | `dead` | X eyes |
+
+The list lives only in `src/faces.cpp` and is published to the browser in the
+WebSocket state frame, so the control panel's grid can never fall out of sync
+with the firmware. Adding a face means adding one row to `kSpecs` and one entry
+to `kNames`.
 
 The renderer draws only through `Adafruit_GFX` and uses no driver-specific
 constants, so moving to an SH1106 or a colour panel means changing the display
