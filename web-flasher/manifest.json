@@ -1,0 +1,21 @@
+{
+  "name": "Desk Buddy",
+  "version": "0.1.0",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP32-C3",
+      "improv": false,
+      "parts": [
+        {
+          "path": "desk-buddy-firmware.bin",
+          "offset": 0
+        },
+        {
+          "path": "littlefs.bin",
+          "offset": 3866624
+        }
+      ]
+    }
+  ]
+}

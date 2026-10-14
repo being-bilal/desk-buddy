@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------------------
+#  Toolchain and build output - all of it is regenerated, none of it belongs in
+#  git. .pio-core alone is ~2 GB, so committing it would be catastrophic.
+#  Rebuild everything with:  ./tools/build_release.sh
+# ---------------------------------------------------------------------------
+.venv-pio/
+.pio-core/
+firmware/.pio/
+
+# ---------------------------------------------------------------------------
+#  macOS
+# ---------------------------------------------------------------------------
+.DS_Store
+**/.DS_Store
+
+# ---------------------------------------------------------------------------
+#  Editors
+# ---------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+
+# ---------------------------------------------------------------------------
+#  NOTE: web-flasher/*.bin and web-flasher/manifest.json ARE committed on
+#  purpose. Vercel serves this folder as a static site with no build step, so
+#  the images have to exist in the repo for the installer to work.
+# ---------------------------------------------------------------------------

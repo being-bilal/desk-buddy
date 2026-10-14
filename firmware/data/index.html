@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0e1117">
+<title>Desk Buddy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="dot" id="dot"></span>
+    <strong id="name">Desk Buddy</strong>
+    <span class="ver" id="fw"></span>
+  </div>
+  <div class="meta"><span id="status">connecting…</span> &middot; <span id="ip">—</span></div>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>Faces</h2>
+    <p class="hint">Tap the buddy once to cycle through these.</p>
+    <div class="faces" id="faces"></div>
+  </section>
+
+  <section class="card">
+    <h2>Message</h2>
+    <p class="hint">Hold the touch pad for about 0.7&nbsp;s to show this on the
+      OLED. Track&nbsp;2 plays at the same time.</p>
+    <textarea id="msg" maxlength="512" rows="4"
+      placeholder="Write something for your buddy to say…"></textarea>
+    <div class="row">
+      <button id="save" class="primary">Save</button>
+      <button id="show">Show now</button>
+      <button id="hide" class="ghost">Hide</button>
+      <span class="count"><span id="count">0</span>/512</span>
+    </div>
+    <p class="hint small">Accented characters are folded to plain ASCII on the
+      device; emoji are dropped.</p>
+  </section>
+
+  <section class="card">
+    <h2>Sound</h2>
+    <p class="hint">Track&nbsp;1 is the boot jingle, track&nbsp;2 is the message
+      track. A piezo only makes tones &mdash; these are short melodies rather
+      than music.</p>
+    <div class="row">
+      <button data-play="1">&#9654; Intro (1)</button>
+      <button data-play="2">&#9654; Message (2)</button>
+      <button id="stop" class="ghost">Stop</button>
+    </div>
+    <label class="slider">Volume
+      <input type="range" id="vol" min="0" max="30" step="1">
+      <span id="volv">–</span>
+    </label>
+  </section>
+
+  <section class="card">
+    <h2>WiFi</h2>
+    <form id="wifi">
+      <input id="ssid" placeholder="Network name" autocomplete="off">
+      <input id="pass" type="password" placeholder="Password"
+             autocomplete="new-password">
+      <div class="row">
+        <button class="primary" type="submit">Save &amp; reboot</button>
+        <button type="button" id="reboot" class="ghost">Reboot</button>
+      </div>
+    </form>
+    <p class="hint small">After rebooting the buddy joins your network and
+      answers on <code>http://buddy.local</code>.</p>
+  </section>
+
+</main>
+
+<footer>
+  <span id="stat-line">—</span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
