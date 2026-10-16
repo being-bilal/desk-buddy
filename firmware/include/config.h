@@ -6,6 +6,7 @@
 
 #include <stdint.h>
 
+
 // ------------------------------- identity ---------------------------------
 #define FW_NAME          "Desk Buddy"
 #define FW_VERSION       "0.1.0"
@@ -33,12 +34,21 @@
 //    * a bare piezo disc is capacitive and harmless;
 //    * a buzzer *module* with a pulldown on its input can stop the board
 //      booting entirely.
-//  If the board misbehaves at power-on, move the buzzer to GPIO6/7/10/20/21
-//  and fit a 10k pull-up from GPIO2 to 3V3.
-#define PIN_I2C_SDA      4
-#define PIN_I2C_SCL      5
-#define PIN_TOUCH        3      // TTP223 OUT
-#define PIN_BUZZER       2      // piezo disc (100R series resistor recommended)
+//  If the board misbehaves at power-on, move the buzzer to GPIO5/6/7/10
+//  (all free) and fit a 10k pull-up from GPIO2 to 3V3.
+//
+//  These are the pins on a stock ESP32-C3 Super Mini build:
+//    OLED  SDA=20 SCL=21   - the C3's usual I2C pair. Note these double as
+//                            UART0, so the ROM bootloader prints on GPIO21 for
+//                            a few ms before setup() runs; I2C devices ignore
+//                            traffic that is not addressed to them, so this is
+//                            harmless in practice.
+//    touch OUT=1
+//    buzzer signal=2       - a strapping pin, see the warning above.
+#define PIN_I2C_SDA      20
+#define PIN_I2C_SCL      21
+#define PIN_TOUCH        1      // TTP223 OUT
+#define PIN_BUZZER       2      // *** strapping pin - read the warning above ***
 #define PIN_VIBRO        -1     // vibration motor module; -1 = not fitted
 #define PIN_LED          8      // on-board LED, active LOW
 

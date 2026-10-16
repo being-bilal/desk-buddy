@@ -7,21 +7,23 @@
   var $ = function (id) { return document.getElementById(id); };
 
   /* Presentation only - the authoritative face list comes from the device. */
+  /* Pastel fills with soft plum ink - every face now uses dark text, since
+     all of these are light tints. */
+  var INK = '#4A4458';
   var META = {
-    neutral:   { em: '\uD83D\uDE42', label: 'Neutral',   bg: '#DCE3EC', fg: '#111' },
-    happy:     { em: '\uD83D\uDE04', label: 'Happy',     bg: '#FFD400', fg: '#111' },
-    excited:   { em: '\uD83E\uDD29', label: 'Excited',   bg: '#FF7A00', fg: '#111' },
-    love:      { em: '\uD83D\uDE0D', label: 'Love',      bg: '#FF3D8B', fg: '#FFFFFF' },
-    cool:      { em: '\uD83D\uDE0E', label: 'Cool',      bg: '#00D5E0', fg: '#111' },
-    wink:      { em: '\uD83D\uDE09', label: 'Wink',      bg: '#8B5CF6', fg: '#FFFFFF' },
-    tired:     { em: '\uD83D\uDE34', label: 'Tired',     bg: '#A5B4FC', fg: '#111' },
-    sad:       { em: '\uD83D\uDE22', label: 'Sad',       bg: '#2F6BFF', fg: '#FFFFFF' },
-    angry:     { em: '\uD83D\uDE20', label: 'Angry',     bg: '#FF3B30', fg: '#FFFFFF' },
-    surprised: { em: '\uD83D\uDE2E', label: 'Surprised', bg: '#B6FF3B', fg: '#111' },
-    confused:  { em: '\uD83E\uDD14', label: 'Confused',  bg: '#00B894', fg: '#111' },
-    dead:      { em: '\uD83D\uDC80', label: 'Dead',      bg: '#C9CED6', fg: '#111' }
+    neutral:   { em: '\uD83D\uDE42', label: 'Neutral',   bg: '#E9E7F2', fg: INK },
+    happy:     { em: '\uD83D\uDE04', label: 'Happy',     bg: '#FFE9A8', fg: INK },
+    excited:   { em: '\uD83E\uDD29', label: 'Excited',   bg: '#FFD8BC', fg: INK },
+    love:      { em: '\uD83D\uDE0D', label: 'Love',      bg: '#FFC2D6', fg: INK },
+    cool:      { em: '\uD83D\uDE0E', label: 'Cool',      bg: '#BFE7F0', fg: INK },
+    wink:      { em: '\uD83D\uDE09', label: 'Wink',      bg: '#DCD0F7', fg: INK },
+    tired:     { em: '\uD83D\uDE34', label: 'Tired',     bg: '#D3D6F7', fg: INK },
+    sad:       { em: '\uD83D\uDE22', label: 'Sad',       bg: '#C3DCF7', fg: INK },
+    angry:     { em: '\uD83D\uDE20', label: 'Angry',     bg: '#FFC7C7', fg: INK },
+    surprised: { em: '\uD83D\uDE2E', label: 'Surprised', bg: '#DBF3BC', fg: INK },
+    confused:  { em: '\uD83E\uDD14', label: 'Confused',  bg: '#BCEBDD', fg: INK },
+    dead:      { em: '\uD83D\uDC80', label: 'Dead',      bg: '#E4E4EC', fg: INK }
   };
-
   var facesEl = $('faces');
   var msg = $('msg');
   var vol = $('vol');
@@ -36,8 +38,8 @@
     return {
       em: '\u2753',
       label: name.charAt(0).toUpperCase() + name.slice(1),
-      bg: '#E5E7EB',
-      fg: '#111'
+      bg: '#E9E7F2',
+      fg: '#4A4458'
     };
   }
 

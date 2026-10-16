@@ -3,219 +3,224 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#FFF6E5">
+<meta name="theme-color" content="#FDFBF9">
 <title>Desk Buddy &mdash; Install</title>
 <script type="module"
         src="https://unpkg.com/esp-web-tools@10.1.1/dist/web/install-button.js?module"></script>
 <style>
   :root {
-    --ink: #111111;
-    --paper: #FFF6E5;
-    --pink: #FF3D8B;
-    --yellow: #FFD400;
-    --lime: #B6FF3B;
-    --cyan: #00D5E0;
-    --violet: #8B5CF6;
-    --orange: #FF7A00;
-    --blue: #2F6BFF;
-    --shadow: 6px 6px 0 var(--ink);
-    --shadow-sm: 4px 4px 0 var(--ink);
-    --border: 3px solid var(--ink);
+    --ink:        #4A4458;
+    --ink-soft:   #7A7290;
+    --ink-faint:  #A79FBB;
+
+    --paper:      #FDFBF9;
+    --surface:    #FFFFFF;
+    --line:       #EFEAF4;
+
+    --pink:       #FFC2D6;
+    --blush:      #FFD6E4;
+    --peach:      #FFD8BC;
+    --mint:       #BCEBDD;
+    --sky:        #C3DCF7;
+    --lilac:      #DCD0F7;
+    --lime:       #DBF3BC;
+    --cream:      #FFF0C9;
+
+    --shadow-sm:  0 2px 6px rgba(122, 114, 144, .10);
+    --shadow:     0 8px 24px rgba(122, 114, 144, .12);
+    --shadow-lg:  0 16px 44px rgba(122, 114, 144, .18);
   }
   * { box-sizing: border-box; }
 
   body {
     margin: 0;
-    padding: 0 16px 56px;
+    padding: 0 18px 60px;
     color: var(--ink);
-    font: 16px/1.55 ui-rounded, "Nunito", "Trebuchet MS", -apple-system,
+    font: 16px/1.6 ui-rounded, "Nunito", "Quicksand", -apple-system,
           BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--paper);
     background-image:
-      radial-gradient(rgba(17,17,17,.10) 1.3px, transparent 1.3px),
-      radial-gradient(rgba(17,17,17,.10) 1.3px, transparent 1.3px);
-    background-size: 30px 30px;
-    background-position: 0 0, 15px 15px;
+      radial-gradient(1100px 560px at 8% -8%,  #F2EAFF 0%, transparent 62%),
+      radial-gradient(900px 520px at 96% 2%,   #FFEDF4 0%, transparent 58%),
+      radial-gradient(820px 620px at 50% 104%, #E9F7F2 0%, transparent 62%);
+    background-attachment: fixed;
   }
 
-  main { max-width: 720px; margin: 0 auto; }
+  main { max-width: 740px; margin: 0 auto; }
 
   /* ------------------------------- hero --------------------------------- */
-  .hero { padding: 34px 0 6px; }
+  .hero { padding: 44px 0 8px; }
 
   h1 {
     display: inline-block;
-    margin: 0 0 14px;
-    padding: 10px 20px;
-    font-size: clamp(28px, 7vw, 44px);
-    font-weight: 900;
+    margin: 0 0 16px;
+    padding: 14px 26px;
+    font-size: clamp(30px, 7vw, 46px);
+    font-weight: 800;
     letter-spacing: -.03em;
     line-height: 1;
-    background: var(--yellow);
-    border: var(--border);
-    border-radius: 16px;
+    color: var(--ink);
+    background: linear-gradient(135deg, #FFE7F0 0%, #EDE6FF 55%, #E6F7F3 100%);
+    border-radius: 24px;
     box-shadow: var(--shadow);
-    transform: rotate(-1.5deg);
   }
 
   .sub {
     margin: 0;
-    font-size: 14px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .07em;
-    opacity: .7;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-soft);
   }
 
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
   .chip {
-    padding: 6px 13px;
-    font-size: 11.5px;
-    font-weight: 900;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
     text-transform: uppercase;
-    letter-spacing: .07em;
-    border: var(--border);
+    color: var(--ink);
     border-radius: 999px;
-    box-shadow: 3px 3px 0 var(--ink);
+    box-shadow: var(--shadow-sm);
   }
-  .chip:nth-child(1) { background: var(--pink); color: #fff; transform: rotate(-2deg); }
-  .chip:nth-child(2) { background: var(--lime); transform: rotate(1.5deg); }
-  .chip:nth-child(3) { background: var(--cyan); transform: rotate(-1deg); }
-  .chip:nth-child(4) { background: var(--violet); color: #fff; transform: rotate(2deg); }
+  .chip:nth-child(1) { background: var(--pink); }
+  .chip:nth-child(2) { background: var(--lime); }
+  .chip:nth-child(3) { background: var(--mint); }
+  .chip:nth-child(4) { background: var(--lilac); }
 
   /* ------------------------------ installer ----------------------------- */
   .card {
-    background: #fff;
-    border: var(--border);
-    border-radius: 20px;
+    background: var(--surface);
+    border-radius: 26px;
     box-shadow: var(--shadow);
-    padding: 24px 20px;
-    margin-top: 26px;
+    padding: 28px 24px;
+    margin-top: 30px;
     text-align: center;
   }
-  .card.install { background: var(--pink); color: #fff; }
+  .card.install {
+    background: linear-gradient(135deg, #FFF0F6 0%, #F6F0FF 100%);
+    box-shadow: var(--shadow-lg);
+  }
 
   esp-web-install-button button,
   .card.install > button {
     font: inherit;
-    font-size: 16px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    padding: 16px 34px;
-    color: var(--ink);
-    background: var(--yellow);
-    border: var(--border);
-    border-radius: 15px;
+    font-size: 16.5px;
+    font-weight: 700;
+    padding: 17px 38px;
+    color: #8A3D5C;
+    background: linear-gradient(135deg, var(--blush) 0%, var(--pink) 100%);
+    border: none;
+    border-radius: 18px;
     box-shadow: var(--shadow);
     cursor: pointer;
-    transition: transform .07s ease, box-shadow .07s ease;
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
   }
   esp-web-install-button button:hover,
-  .card.install > button:hover { background: var(--lime); }
+  .card.install > button:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    filter: saturate(1.08);
+  }
   esp-web-install-button button:active,
   .card.install > button:active {
-    transform: translate(6px, 6px);
-    box-shadow: 0 0 0 var(--ink);
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
   }
 
-  esp-web-install-button[slot="unsupported"],
   esp-web-install-button span {
     display: block;
-    margin-top: 14px;
-    font-size: 13px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .05em;
+    margin-top: 16px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
   }
 
   .note {
-    margin: 16px 0 0;
-    font-size: 13px;
-    font-weight: 700;
-    opacity: .85;
+    margin: 18px 0 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
   }
 
   /* -------------------------------- steps ------------------------------- */
   h2 {
     display: inline-block;
-    margin: 40px 0 16px;
-    padding: 5px 16px;
-    font-size: 12.5px;
-    font-weight: 900;
+    margin: 44px 0 18px;
+    padding: 7px 19px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .09em;
     text-transform: uppercase;
-    letter-spacing: .1em;
-    background: var(--cyan);
-    border: var(--border);
+    color: var(--ink);
+    background: var(--sky);
     border-radius: 999px;
-    box-shadow: 3px 3px 0 var(--ink);
-    transform: rotate(-1.5deg);
+    box-shadow: var(--shadow-sm);
   }
+  h2:nth-of-type(2) { background: var(--mint); }
+  h2:nth-of-type(3) { background: var(--lilac); }
 
   ol { margin: 0; padding: 0; list-style: none; counter-reset: step; }
 
   li {
     position: relative;
     counter-increment: step;
-    margin-bottom: 12px;
-    padding: 14px 16px 14px 60px;
-    background: #fff;
-    border: var(--border);
-    border-radius: 15px;
+    margin-bottom: 13px;
+    padding: 17px 20px 17px 66px;
+    background: var(--surface);
+    border-radius: 20px;
     box-shadow: var(--shadow-sm);
     font-size: 14.5px;
     font-weight: 600;
+    color: var(--ink);
   }
   li::before {
     content: counter(step);
     position: absolute;
-    left: 12px;
-    top: 13px;
-    width: 30px;
-    height: 30px;
+    left: 16px;
+    top: 15px;
+    width: 32px;
+    height: 32px;
     display: grid;
     place-items: center;
-    font-weight: 900;
+    font-weight: 700;
     font-size: 14px;
-    background: var(--orange);
-    border: 2px solid var(--ink);
+    color: var(--ink);
+    background: var(--peach);
     border-radius: 50%;
   }
   li:nth-child(2n)::before { background: var(--lime); }
-  li:nth-child(3n)::before { background: var(--cyan); }
+  li:nth-child(3n)::before { background: var(--mint); }
+  li:nth-child(4n)::before { background: var(--sky); }
 
-  b { font-weight: 900; }
+  b { font-weight: 700; color: var(--ink); }
 
   code {
-    background: var(--yellow);
-    border: 2px solid var(--ink);
-    border-radius: 6px;
-    padding: 1px 6px;
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 2px 8px;
     font-size: 12.5px;
-    font-weight: 700;
+    font-weight: 600;
+    color: var(--ink);
   }
 
   .warn {
-    background: var(--ink);
-    color: var(--paper);
-    border-radius: 20px;
-    border: var(--border);
-    box-shadow: var(--shadow);
-    padding: 20px;
-    margin-top: 34px;
+    margin-top: 38px;
+    padding: 24px;
     font-size: 14px;
     font-weight: 600;
+    color: var(--ink);
+    background: linear-gradient(135deg, #F3ECFF 0%, #FFEFF6 100%);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
   }
-  .warn b { color: var(--yellow); }
-  .warn code { background: var(--paper); color: var(--ink); }
+  .warn b { color: #8A3D5C; font-weight: 700; }
 
   footer {
-    margin-top: 30px;
-    font-size: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .07em;
-    opacity: .6;
+    margin-top: 32px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-faint);
   }
 </style>
 </head>
